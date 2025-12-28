@@ -456,10 +456,28 @@ class Visualizer {
     }
 
     draw() {
+        // Calculate required canvas height based on number of intervals
+        const intervalHeight = 30;
+        const intervalSpacing = 10;
+        const startY = 60;
+        const displayIntervals = this.sortedIntervals.length > 0 ? this.sortedIntervals : this.intervals;
+        const resultSpacing = 60; // Space between original and result sections
+        const minHeight = 500;
+        
+        // Calculate needed height
+        const originalsHeight = displayIntervals.length * (intervalHeight + intervalSpacing);
+        const resultHeight = this.result.length > 0 ? this.result.length * (intervalHeight + intervalSpacing) + resultSpacing : 0;
+        const totalNeededHeight = startY + originalsHeight + resultHeight + 100;
+        
+        // Update canvas height if needed
+        if (totalNeededHeight > minHeight) {
+            this.canvas.height = totalNeededHeight;
+        } else {
+            this.canvas.height = minHeight;
+        }
+        
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        const intervalHeight = 30;
-        const startY = 60;
         const scale = 40;
         const offsetX = 100;
 
@@ -486,10 +504,9 @@ class Visualizer {
 
         // Draw original intervals
         this.ctx.font = 'bold 14px Arial';
-        const displayIntervals = this.sortedIntervals.length > 0 ? this.sortedIntervals : this.intervals;
         
         displayIntervals.forEach((interval, idx) => {
-            const y = startY + idx * (intervalHeight + 10);
+            const y = startY + idx * (intervalHeight + intervalSpacing);
             const x1 = offsetX + interval[0] * scale;
             const x2 = offsetX + interval[1] * scale;
 
@@ -516,13 +533,24 @@ class Visualizer {
 
         // Draw result intervals if available
         if (this.result.length > 0) {
+            const resultStartY = startY + displayIntervals.length * (intervalHeight + intervalSpacing) + 50;
+            
+            // Draw "Result:" label
             this.ctx.fillStyle = '#1e293b';
             this.ctx.font = 'bold 16px Arial';
             this.ctx.textAlign = 'left';
-            this.ctx.fillText('Result:', offsetX, startY + displayIntervals.length * (intervalHeight + 10) + 40);
+            this.ctx.fillText('Result:', offsetX, resultStartY);
+
+            // Draw result timeline
+            this.ctx.strokeStyle = '#cbd5e1';
+            this.ctx.lineWidth = 2;
+            this.ctx.beginPath();
+            this.ctx.moveTo(offsetX, resultStartY + 15);
+            this.ctx.lineTo(offsetX + 20 * scale, resultStartY + 15);
+            this.ctx.stroke();
 
             this.result.forEach((interval, idx) => {
-                const y = startY + displayIntervals.length * (intervalHeight + 10) + 60 + idx * (intervalHeight + 10);
+                const y = resultStartY + 30 + idx * (intervalHeight + intervalSpacing);
                 const x1 = offsetX + interval[0] * scale;
                 const x2 = offsetX + interval[1] * scale;
 
