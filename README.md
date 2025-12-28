@@ -32,7 +32,7 @@ Detect cycles and find duplicates using two pointers moving at different speeds.
 
 **Real-World Use**: Memory leak detection, loop detection, duplicate detection in streams
 
-🔗 **[Live Demo](#)** | 📂 **[Code](./day01-fast-slow-pointers/)**
+🔗 **[Live Demo](https://tyagirohan.github.io/LeetCode-Patterns/day01-fast-slow-pointers/)** | 📂 **[Code](./day01-fast-slow-pointers/)**
 
 **Tech Stack**: Vanilla JS, Canvas API, O(n) time, O(1) space
 
@@ -60,7 +60,7 @@ Schedule meetings, merge time intervals, and solve resource allocation problems.
 
 **Real-World Use**: Calendar apps (Google Calendar), resource scheduling, timeline management, booking systems
 
-🔗 **[Live Demo](#)** | 📂 **[Code](./day02-merge-intervals/)**
+🔗 **[Live Demo](https://tyagirohan.github.io/LeetCode-Patterns/day02-merge-intervals/)** | 📂 **[Code](./day02-merge-intervals/)**
 
 **Tech Stack**: Vanilla JS, Canvas API, O(n log n) time
 
@@ -88,7 +88,7 @@ Solve N-Queens and Sudoku puzzles with animated decision tree exploration.
 
 **Real-World Use**: Game AI, puzzle solvers, constraint satisfaction, scheduling, resource allocation
 
-🔗 **[Live Demo](#)** | 📂 **[Code](./day03-backtracking/)**
+🔗 **[Live Demo](https://tyagirohan.github.io/LeetCode-Patterns/day03-backtracking/)** | 📂 **[Code](./day03-backtracking/)**
 
 **Tech Stack**: Vanilla JS, Canvas API, O(b^d) complexity
 
@@ -115,7 +115,7 @@ Find top K elements using min/max heaps - faster than full sorting!
 
 **Real-World Use**: Leaderboards, recommendations, search ranking, OS task scheduling
 
-🔗 **[Live Demo](#)** | 📂 **[Code](./day04-top-k-elements/)**
+🔗 **[Live Demo](https://tyagirohan.github.io/LeetCode-Patterns/day04-top-k-elements/)** | 📂 **[Code](./day04-top-k-elements/)**
 
 **Tech Stack**: Vanilla JS, Heap implementation, O(n log k) time
 
@@ -142,7 +142,7 @@ Master all tree traversal types with interactive visualization and path finding.
 
 **Real-World Use**: File systems, DOM manipulation, org hierarchies, compilers, databases
 
-🔗 **[Live Demo](#)** | 📂 **[Code](./day05-binary-tree/)**
+🔗 **[Live Demo](https://tyagirohan.github.io/LeetCode-Patterns/day05-binary-tree/)** | 📂 **[Code](./day05-binary-tree/)**
 
 **Tech Stack**: Vanilla JS, Canvas API, O(n) traversals
 
@@ -169,7 +169,7 @@ Generate all subsets, permutations, and combinations with decision tree visualiz
 
 **Real-World Use**: Password generation, test cases, feature flags, A/B testing, menu planning
 
-🔗 **[Live Demo](#)** | 📂 **[Code](./day06-subsets-permutations/)**
+🔗 **[Live Demo](https://tyagirohan.github.io/LeetCode-Patterns/day06-subsets-permutations/)** | 📂 **[Code](./day06-subsets-permutations/)**
 
 **Tech Stack**: Vanilla JS, Recursive backtracking, O(2^n) / O(n!) complexity
 
