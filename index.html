@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeetCode Patterns - Week 4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            border-top: 4px solid #6366f1;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-icon {
+            font-size: 2.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .project-pattern {
+            color: #6366f1;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .project-description {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .stat strong {
+            color: #6366f1;
+        }
+
+        .project-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #6366f1;
+            border: 2px solid #6366f1;
+        }
+
+        .btn-secondary:hover {
+            background: #6366f1;
+            color: white;
+        }
+
+        .coming-soon {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .coming-soon-badge {
+            background: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 2px solid #e2e8f0;
+            color: #64748b;
+        }
+
+        footer a {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 LeetCode Patterns - Week 4</h1>
+            <p class="subtitle">Master 6 patterns that unlock 300+ LeetCode problems</p>
+            <div class="badges">
+                <span class="badge">Week 4 - In Progress</span>
+                <span class="badge">6 Patterns</span>
+                <span class="badge">300+ Problems</span>
+                <span class="badge">Interactive Visualizations</span>
+            </div>
+        </header>
+
+        <div class="projects-grid">
+            <!-- Day 1 -->
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-icon">🐢🐰</span>
+                    <h2 class="project-title">Fast & Slow Pointers</h2>
+                </div>
+                <p class="project-pattern">Pattern: Floyd's Cycle Detection</p>
+                <p class="project-description">
+                    Detect cycles and find duplicates using two pointers moving at different speeds. 
+                    Visualize the tortoise and hare algorithm in action!
+                </p>
+                <div class="project-stats">
+                    <span class="stat"><strong>Day:</strong> 1/6</span>
+                    <span class="stat"><strong>Problems:</strong> 30+</span>
+                    <span class="stat"><strong>Time:</strong> O(n)</span>
+                    <span class="stat"><strong>Space:</strong> O(1)</span>
+                </div>
+                <div class="project-buttons">
+                    <a href="day01-fast-slow-pointers/index.html" class="btn btn-primary">🚀 Live Demo</a>
+                    <a href="https://github.com/Tyagirohan/LeetCode-Patterns/tree/main/day01-fast-slow-pointers" class="btn btn-secondary">📂 Code</a>
+                </div>
+            </div>
+
+            <!-- Day 2 -->
+            <div class="project-card coming-soon">
+                <span class="coming-soon-badge">Coming Soon</span>
+                <div class="project-header">
+                    <span class="project-icon">📊</span>
+                    <h2 class="project-title">Merge Intervals</h2>
+                </div>
+                <p class="project-pattern">Pattern: Sort + Merge</p>
+                <p class="project-description">
+                    Schedule meetings and merge overlapping time ranges. 
+                    Interactive calendar visualizer with real-world scheduling problems.
+                </p>
+                <div class="project-stats">
+                    <span class="stat"><strong>Day:</strong> 2/6</span>
+                    <span class="stat"><strong>Problems:</strong> 40+</span>
+                    <span class="stat"><strong>Time:</strong> O(n log n)</span>
+                </div>
+            </div>
+
+            <!-- Day 3 -->
+            <div class="project-card coming-soon">
+                <span class="coming-soon-badge">Coming Soon</span>
+                <div class="project-header">
+                    <span class="project-icon">♟️</span>
+                    <h2 class="project-title">Backtracking</h2>
+                </div>
+                <p class="project-pattern">Pattern: Try & Backtrack</p>
+                <p class="project-description">
+                    Solve N-Queens and Sudoku with animated backtracking. 
+                    Watch the decision tree explore all possibilities!
+                </p>
+                <div class="project-stats">
+                    <span class="stat"><strong>Day:</strong> 3/6</span>
+                    <span class="stat"><strong>Problems:</strong> 50+</span>
+                    <span class="stat"><strong>Time:</strong> O(2^n)</span>
+                </div>
+            </div>
+
+            <!-- Day 4 -->
+            <div class="project-card coming-soon">
+                <span class="coming-soon-badge">Coming Soon</span>
+                <div class="project-header">
+                    <span class="project-icon">🏆</span>
+                    <h2 class="project-title">Top K Elements</h2>
+                </div>
+                <p class="project-pattern">Pattern: Heap / Priority Queue</p>
+                <p class="project-description">
+                    Find top K elements efficiently using heaps. 
+                    Visualize heap operations and leaderboard systems!
+                </p>
+                <div class="project-stats">
+                    <span class="stat"><strong>Day:</strong> 4/6</span>
+                    <span class="stat"><strong>Problems:</strong> 40+</span>
+                    <span class="stat"><strong>Time:</strong> O(n log k)</span>
+                </div>
+            </div>
+
+            <!-- Day 5 -->
+            <div class="project-card coming-soon">
+                <span class="coming-soon-badge">Coming Soon</span>
+                <div class="project-header">
+                    <span class="project-icon">🌳</span>
+                    <h2 class="project-title">Binary Tree Patterns</h2>
+                </div>
+                <p class="project-pattern">Pattern: DFS / BFS Traversals</p>
+                <p class="project-description">
+                    Master tree traversals, path sums, and serialization. 
+                    Interactive tree builder with all traversal types!
+                </p>
+                <div class="project-stats">
+                    <span class="stat"><strong>Day:</strong> 5/6</span>
+                    <span class="stat"><strong>Problems:</strong> 100+</span>
+                    <span class="stat"><strong>Time:</strong> O(n)</span>
+                </div>
+            </div>
+
+            <!-- Day 6 -->
+            <div class="project-card coming-soon">
+                <span class="coming-soon-badge">Coming Soon</span>
+                <div class="project-header">
+                    <span class="project-icon">🔄</span>
+                    <h2 class="project-title">Subsets & Permutations</h2>
+                </div>
+                <p class="project-pattern">Pattern: Combinations Generator</p>
+                <p class="project-description">
+                    Generate all subsets, permutations, and combinations. 
+                    Visualize the decision tree for combinatorial problems!
+                </p>
+                <div class="project-stats">
+                    <span class="stat"><strong>Day:</strong> 6/6</span>
+                    <span class="stat"><strong>Problems:</strong> 50+</span>
+                    <span class="stat"><strong>Time:</strong> O(2^n)</span>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>Part of the DSA Learning Journey</strong></p>
+            <p>
+                <a href="https://github.com/Tyagirohan/build-with-dsa">Week 1: Data Structures</a> | 
+                <a href="https://github.com/Tyagirohan/Algorithms-in-Action">Week 2: Core Algorithms</a> | 
+                <a href="https://github.com/Tyagirohan/Real-World-Applications">Week 3: Real-World Apps</a>
+            </p>
+            <p style="margin-top: 1rem;">Built with 💙 by <a href="https://github.com/Tyagirohan">Rohan Tyagi</a></p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Master patterns, not problems 🎯</p>
+        </footer>
+    </div>
+</body>
+</html>
+

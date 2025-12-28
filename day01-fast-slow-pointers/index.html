@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast & Slow Pointers - LeetCode Pattern</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>🐢🐰 Fast & Slow Pointers</h1>
+                <p class="subtitle">Floyd's Cycle Detection Algorithm</p>
+            </div>
+            <div class="header-meta">
+                <span class="badge">Day 1/6</span>
+                <span class="badge">Pattern: Two Pointers</span>
+            </div>
+        </header>
+
+        <!-- Pattern Info -->
+        <section class="pattern-info">
+            <h2>📖 Pattern Overview</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎯 When to Use</h3>
+                    <ul>
+                        <li>Detect cycles in linked lists</li>
+                        <li>Find middle of linked list</li>
+                        <li>Find duplicate in array</li>
+                        <li>Detect loops in sequences</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ Complexity</h3>
+                    <ul>
+                        <li><strong>Time:</strong> O(n)</li>
+                        <li><strong>Space:</strong> O(1)</li>
+                        <li><strong>Advantage:</strong> Constant space!</li>
+                        <li><strong>Key:</strong> Two pointers, different speeds</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🔑 How It Works</h3>
+                    <ul>
+                        <li><strong>Slow:</strong> Moves 1 step at a time 🐢</li>
+                        <li><strong>Fast:</strong> Moves 2 steps at a time 🐰</li>
+                        <li><strong>Cycle:</strong> They meet eventually</li>
+                        <li><strong>No Cycle:</strong> Fast reaches end</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Selector -->
+        <section class="problem-selector">
+            <h2>🎯 Select Problem</h2>
+            <div class="problem-tabs">
+                <button class="tab-btn active" data-problem="cycle">
+                    <span class="problem-number">LC 141</span>
+                    <span class="problem-name">Linked List Cycle</span>
+                </button>
+                <button class="tab-btn" data-problem="duplicate">
+                    <span class="problem-number">LC 287</span>
+                    <span class="problem-name">Find Duplicate</span>
+                </button>
+                <button class="tab-btn" data-problem="happy">
+                    <span class="problem-number">LC 202</span>
+                    <span class="problem-name">Happy Number</span>
+                </button>
+                <button class="tab-btn" data-problem="middle">
+                    <span class="problem-number">LC 876</span>
+                    <span class="problem-name">Middle of List</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Visualizer -->
+        <section class="visualizer">
+            <div class="visualizer-header">
+                <h2 id="problemTitle">Linked List Cycle Detection</h2>
+                <div class="controls">
+                    <button id="generateBtn" class="btn btn-secondary">🎲 Random List</button>
+                    <button id="startBtn" class="btn btn-primary">▶ Start</button>
+                    <button id="stepBtn" class="btn btn-secondary">⏯ Step</button>
+                    <button id="resetBtn" class="btn btn-secondary">↺ Reset</button>
+                </div>
+            </div>
+
+            <!-- Speed Control -->
+            <div class="speed-control">
+                <label for="speedSlider">Speed:</label>
+                <input type="range" id="speedSlider" min="1" max="4" value="2" step="1">
+                <span id="speedLabel">Normal</span>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-container">
+                <canvas id="visualizerCanvas"></canvas>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-label">Slow Pointer 🐢:</span>
+                    <span id="slowPos" class="stat-value">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Fast Pointer 🐰:</span>
+                    <span id="fastPos" class="stat-value">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Steps Taken:</span>
+                    <span id="steps" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Status:</span>
+                    <span id="status" class="stat-value">Ready</span>
+                </div>
+            </div>
+
+            <!-- Step Description -->
+            <div class="step-description">
+                <h3>Current Step:</h3>
+                <p id="stepText">Click "Start" or "Step" to begin the algorithm</p>
+            </div>
+        </section>
+
+        <!-- Custom Input Section -->
+        <section class="custom-input">
+            <h2>🎨 Custom Input</h2>
+            <div class="input-container" id="cycleInput">
+                <label>
+                    Linked List Values (comma-separated):
+                    <input type="text" id="listValues" placeholder="e.g., 3,2,0,-4">
+                </label>
+                <label>
+                    Cycle Position (index where tail connects, -1 for no cycle):
+                    <input type="number" id="cyclePos" value="-1" min="-1">
+                </label>
+                <button id="customBtn" class="btn btn-primary">Create List</button>
+            </div>
+
+            <div class="input-container hidden" id="duplicateInput">
+                <label>
+                    Array (with one duplicate):
+                    <input type="text" id="arrayValues" placeholder="e.g., 1,3,4,2,2">
+                </label>
+                <button id="customDupBtn" class="btn btn-primary">Find Duplicate</button>
+            </div>
+
+            <div class="input-container hidden" id="happyInput">
+                <label>
+                    Enter a number:
+                    <input type="number" id="happyNumber" value="19" min="1">
+                </label>
+                <button id="customHappyBtn" class="btn btn-primary">Check Happy Number</button>
+            </div>
+
+            <div class="input-container hidden" id="middleInput">
+                <label>
+                    Linked List Values:
+                    <input type="text" id="middleValues" placeholder="e.g., 1,2,3,4,5">
+                </label>
+                <button id="customMiddleBtn" class="btn btn-primary">Find Middle</button>
+            </div>
+        </section>
+
+        <!-- LeetCode Problems Reference -->
+        <section class="leetcode-reference">
+            <h2>📚 LeetCode Problems</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <h3>141. Linked List Cycle</h3>
+                    <p class="difficulty easy">Easy</p>
+                    <p>Detect if a cycle exists in a linked list.</p>
+                    <a href="https://leetcode.com/problems/linked-list-cycle/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>142. Linked List Cycle II</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find the node where the cycle begins.</p>
+                    <a href="https://leetcode.com/problems/linked-list-cycle-ii/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>287. Find Duplicate Number</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find the duplicate in array without modifying it.</p>
+                    <a href="https://leetcode.com/problems/find-the-duplicate-number/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>202. Happy Number</h3>
+                    <p class="difficulty easy">Easy</p>
+                    <p>Determine if a number is happy using cycle detection.</p>
+                    <a href="https://leetcode.com/problems/happy-number/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>876. Middle of Linked List</h3>
+                    <p class="difficulty easy">Easy</p>
+                    <p>Find the middle node using two pointers.</p>
+                    <a href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>457. Circular Array Loop</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Detect loop in a circular array.</p>
+                    <a href="https://leetcode.com/problems/circular-array-loop/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithm Explanation -->
+        <section class="algorithm-explanation">
+            <h2>🧠 Algorithm Deep Dive</h2>
+            <div class="explanation-content">
+                <div class="explanation-section">
+                    <h3>Why It Works</h3>
+                    <p>If there's a cycle, the fast pointer will eventually "lap" the slow pointer, like runners on a circular track. If there's no cycle, the fast pointer will reach the end.</p>
+                    <div class="code-example">
+                        <pre><code>function hasCycle(head) {
+    let slow = head;
+    let fast = head;
+    
+    while (fast && fast.next) {
+        slow = slow.next;        // Move 1 step
+        fast = fast.next.next;   // Move 2 steps
+        
+        if (slow === fast) {
+            return true;  // Cycle detected!
+        }
+    }
+    
+    return false;  // No cycle
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Finding Cycle Start (Floyd's Algorithm Extended)</h3>
+                    <p>After detecting a cycle, reset one pointer to head. Move both at same speed - they meet at the cycle start!</p>
+                    <div class="code-example">
+                        <pre><code>function detectCycle(head) {
+    let slow = head, fast = head;
+    
+    // Phase 1: Detect cycle
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow === fast) break;
+    }
+    
+    if (!fast || !fast.next) return null;
+    
+    // Phase 2: Find start
+    slow = head;
+    while (slow !== fast) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    
+    return slow;  // Cycle start!
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Real-World Applications</h3>
+                    <ul>
+                        <li><strong>Memory Leak Detection:</strong> Detect circular references in garbage collection</li>
+                        <li><strong>Loop Detection:</strong> Find infinite loops in state machines</li>
+                        <li><strong>Duplicate Detection:</strong> Find duplicates in streams without extra space</li>
+                        <li><strong>Network Protocols:</strong> Detect routing loops in networking</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../index.html">← Back to All Patterns</a>
+                    <a href="https://github.com/Tyagirohan/LeetCode-Patterns" target="_blank">View Code on GitHub</a>
+                </div>
+                <p>Day 1 of 6 - LeetCode Patterns Series</p>
+                <p>Built with 💙 by Rohan Tyagi | Part of DSA Learning Journey</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
