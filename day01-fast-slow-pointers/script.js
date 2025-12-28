@@ -138,19 +138,50 @@ class Visualizer {
     }
 
     generateDuplicateArray() {
-        const n = 5 + Math.floor(Math.random() * 5); // 5-9 unique numbers
-        this.nodes = [];
+        // Generate an array where one number from 1 to n appears twice
+        // Classic example: [1,3,4,2,2] where n=4, duplicate=2
+        const n = 4 + Math.floor(Math.random() * 3); // n = 4 to 6
         
+        // Create array with numbers 1 to n
+        const arr = [];
         for (let i = 1; i <= n; i++) {
-            this.nodes.push({ value: i, next: i < n ? i : null });
+            arr.push(i);
         }
-
-        // Add duplicate
-        const dupIndex = 1 + Math.floor(Math.random() * (n - 1));
-        this.nodes.push({ value: dupIndex, next: null });
-        this.cyclePos = dupIndex - 1; // Store where the duplicate points to
-
-        this.updateStepText(`Generated array with numbers 1 to ${n} and one duplicate.`);
+        
+        // Pick a random number to duplicate (not n, to avoid index out of bounds)
+        const duplicate = 1 + Math.floor(Math.random() * (n - 1));
+        arr.push(duplicate);
+        
+        // Shuffle the array
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        
+        // Prepend index 0 with a value that starts the chain
+        // We'll use the first element as our starting point
+        // Actually, for the algorithm to work, we need index 0 to not be part of the duplicate
+        // Typical approach: put any value at index 0 that leads into the chain
+        
+        // Simpler: just ensure we have n+1 elements with values 1 to n
+        // Let's create a valid test case manually
+        const testCases = [
+            [1, 3, 4, 2, 2],  // duplicate = 2
+            [3, 1, 3, 4, 2],  // duplicate = 3
+            [1, 1, 2],        // duplicate = 1
+            [2, 5, 9, 6, 9, 3, 8, 9, 7, 1, 4], // duplicate = 9
+        ];
+        
+        const chosen = testCases[Math.floor(Math.random() * testCases.length)];
+        
+        // Create nodes where value acts as pointer to next index
+        this.nodes = chosen.map((val) => ({
+            value: val,
+            next: null // Values themselves are the "pointers" to indices
+        }));
+        
+        this.cyclePos = -1;
+        this.updateStepText(`Array: [${chosen.join(', ')}]. Finding duplicate using Floyd's algorithm...`);
     }
 
     generateHappyNumber() {
@@ -369,52 +400,59 @@ class Visualizer {
     }
 
     async findDuplicate() {
-        this.slowPointer = 0;
-        this.fastPointer = 0;
+        // Start at index 0
+        let slow = 0;
+        let fast = 0;
         this.steps = 0;
 
         this.updateStepText('Using array values as indices (Floyd\'s algorithm)...');
         await this.sleep();
 
-        // Phase 1: Find intersection
-        while (true) {
+        // Phase 1: Find intersection point
+        do {
             this.steps++;
             
-            this.slowPointer = this.nodes[this.slowPointer].value - 1;
-            this.fastPointer = this.nodes[this.fastPointer].value - 1;
-            
-            if (this.fastPointer < this.nodes.length) {
-                this.fastPointer = this.nodes[this.fastPointer].value - 1;
-            }
-
-            this.updateStats();
-            this.updateStepText(`Step ${this.steps}: Slow at index ${this.slowPointer}, Fast at index ${this.fastPointer}`);
-            this.draw();
-            await this.sleep();
-
-            if (this.slowPointer === this.fastPointer) {
+            // Move slow pointer one step: slow = arr[slow]
+            slow = this.nodes[slow].value;
+            // Move fast pointer two steps: fast = arr[arr[fast]]
+            fast = this.nodes[fast].value;
+            if (fast < this.nodes.length) {
+                fast = this.nodes[fast].value;
+            } else {
                 break;
             }
 
-            if (this.steps > 50) break;
-        }
+            this.slowPointer = slow;
+            this.fastPointer = fast;
+            
+            this.updateStats();
+            this.updateStepText(`Step ${this.steps}: Slow at index ${slow} (value: ${this.nodes[slow]?.value || 'N/A'}), Fast at index ${fast} (value: ${this.nodes[fast]?.value || 'N/A'})`);
+            this.draw();
+            await this.sleep();
 
-        // Phase 2: Find duplicate
-        this.slowPointer = 0;
+            if (this.steps > 50) break;
+        } while (slow !== fast);
+
+        // Phase 2: Find the entrance to the cycle (the duplicate)
+        slow = 0;
         this.updateStepText('Phase 2: Reset slow pointer to start, move both at same speed...');
         await this.sleep();
 
-        while (this.slowPointer !== this.fastPointer) {
+        while (slow !== fast) {
             this.steps++;
-            this.slowPointer = this.nodes[this.slowPointer].value - 1;
-            this.fastPointer = this.nodes[this.fastPointer].value - 1;
+            slow = this.nodes[slow].value;
+            fast = this.nodes[fast].value;
+            
+            this.slowPointer = slow;
+            this.fastPointer = fast;
             
             this.updateStats();
+            this.updateStepText(`Step ${this.steps}: Both moving to index ${slow} and ${fast}`);
             this.draw();
             await this.sleep();
         }
 
-        const duplicate = this.nodes[this.slowPointer].value;
+        const duplicate = slow;
         this.result = `Duplicate Found: ${duplicate} 🎯`;
         this.updateStepText(`Found duplicate number: ${duplicate}!`);
         this.updateStatus(this.result);
