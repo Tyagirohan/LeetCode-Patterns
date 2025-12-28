@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top K Elements - LeetCode Pattern</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>🏆 Top K Elements</h1>
+                <p class="subtitle">Heap / Priority Queue for Efficient Top K</p>
+            </div>
+            <div class="header-meta">
+                <span class="badge">Day 4/6</span>
+                <span class="badge">Pattern: Heap</span>
+            </div>
+        </header>
+
+        <!-- Pattern Info -->
+        <section class="pattern-info">
+            <h2>📖 Pattern Overview</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎯 When to Use</h3>
+                    <ul>
+                        <li>Find Kth largest/smallest element</li>
+                        <li>Top K frequent elements</li>
+                        <li>K closest points</li>
+                        <li>Merge K sorted lists</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ Complexity</h3>
+                    <ul>
+                        <li><strong>Time:</strong> O(n log k)</li>
+                        <li><strong>Space:</strong> O(k)</li>
+                        <li><strong>vs Sort:</strong> O(n log n)</li>
+                        <li><strong>Why Better:</strong> Heap size = k, not n!</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🔑 How It Works</h3>
+                    <ul>
+                        <li><strong>Min-Heap:</strong> For K largest</li>
+                        <li><strong>Max-Heap:</strong> For K smallest</li>
+                        <li><strong>Size K:</strong> Maintain heap of size K</li>
+                        <li><strong>Result:</strong> Heap contains top K</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Selector -->
+        <section class="problem-selector">
+            <h2>🎯 Select Problem</h2>
+            <div class="problem-tabs">
+                <button class="tab-btn active" data-problem="kthlargest">
+                    <span class="problem-number">LC 215</span>
+                    <span class="problem-name">Kth Largest</span>
+                </button>
+                <button class="tab-btn" data-problem="topkfreq">
+                    <span class="problem-number">LC 347</span>
+                    <span class="problem-name">Top K Frequent</span>
+                </button>
+                <button class="tab-btn" data-problem="kclosest">
+                    <span class="problem-number">LC 973</span>
+                    <span class="problem-name">K Closest Points</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Visualizer -->
+        <section class="visualizer">
+            <div class="visualizer-header">
+                <h2 id="problemTitle">Kth Largest Element</h2>
+                <div class="controls">
+                    <button id="generateBtn" class="btn btn-secondary">🎲 Random</button>
+                    <button id="startBtn" class="btn btn-primary">▶ Start</button>
+                    <button id="stepBtn" class="btn btn-secondary">⏯ Step</button>
+                    <button id="resetBtn" class="btn btn-secondary">↺ Reset</button>
+                </div>
+            </div>
+
+            <!-- K Value Control -->
+            <div class="k-control">
+                <label for="kValue">K Value:</label>
+                <input type="range" id="kValue" min="1" max="10" value="3" step="1">
+                <span id="kLabel">3</span>
+            </div>
+
+            <!-- Speed Control -->
+            <div class="speed-control">
+                <label for="speedSlider">Speed:</label>
+                <input type="range" id="speedSlider" min="1" max="4" value="2" step="1">
+                <span id="speedLabel">Normal</span>
+            </div>
+
+            <!-- Visualization Tabs -->
+            <div class="viz-tabs">
+                <button class="viz-tab active" data-tab="heap">🏗️ Heap Structure</button>
+                <button class="viz-tab" data-tab="array">📊 Array View</button>
+                <button class="viz-tab" data-tab="comparison">⚖️ vs Sorting</button>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-container">
+                <canvas id="visualizerCanvas"></canvas>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-label">Array Size:</span>
+                    <span id="arraySize" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Heap Size:</span>
+                    <span id="heapSize" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Operations:</span>
+                    <span id="operations" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Result:</span>
+                    <span id="result" class="stat-value">-</span>
+                </div>
+            </div>
+
+            <!-- Step Description -->
+            <div class="step-description">
+                <h3>Current Step:</h3>
+                <p id="stepText">Click "Start" to begin the algorithm</p>
+            </div>
+        </section>
+
+        <!-- Custom Input Section -->
+        <section class="custom-input">
+            <h2>🎨 Custom Input</h2>
+            <div class="input-container" id="kthLargestInput">
+                <label>
+                    Array (comma-separated numbers):
+                    <input type="text" id="arrayInput" placeholder="e.g., 3,2,1,5,6,4">
+                </label>
+                <label>
+                    K (find Kth largest):
+                    <input type="number" id="kInput" value="2" min="1">
+                </label>
+                <button id="customBtn" class="btn btn-primary">Find Kth Largest</button>
+            </div>
+
+            <div class="input-container hidden" id="topKFreqInput">
+                <label>
+                    Array (numbers with repetitions):
+                    <input type="text" id="freqArrayInput" placeholder="e.g., 1,1,1,2,2,3">
+                </label>
+                <label>
+                    K (top K frequent):
+                    <input type="number" id="kFreqInput" value="2" min="1">
+                </label>
+                <button id="customFreqBtn" class="btn btn-primary">Find Top K Frequent</button>
+            </div>
+
+            <div class="input-container hidden" id="kClosestInput">
+                <label>
+                    Points (format: [x,y] [x,y] ...):
+                    <input type="text" id="pointsInput" placeholder="e.g., [1,3] [-2,2] [5,8] [0,1]">
+                </label>
+                <label>
+                    K (closest K points to origin):
+                    <input type="number" id="kPointsInput" value="2" min="1">
+                </label>
+                <button id="customPointsBtn" class="btn btn-primary">Find K Closest</button>
+            </div>
+        </section>
+
+        <!-- LeetCode Problems Reference -->
+        <section class="leetcode-reference">
+            <h2>📚 LeetCode Problems</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <h3>215. Kth Largest Element</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find the kth largest element in an unsorted array.</p>
+                    <a href="https://leetcode.com/problems/kth-largest-element-in-an-array/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>347. Top K Frequent Elements</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Return K most frequent elements.</p>
+                    <a href="https://leetcode.com/problems/top-k-frequent-elements/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>973. K Closest Points to Origin</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find K points closest to origin (0,0).</p>
+                    <a href="https://leetcode.com/problems/k-closest-points-to-origin/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>295. Find Median from Stream</h3>
+                    <p class="difficulty hard">Hard</p>
+                    <p>Use two heaps to maintain running median.</p>
+                    <a href="https://leetcode.com/problems/find-median-from-data-stream/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>703. Kth Largest Element in Stream</h3>
+                    <p class="difficulty easy">Easy</p>
+                    <p>Design class to find Kth largest in stream.</p>
+                    <a href="https://leetcode.com/problems/kth-largest-element-in-a-stream/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>23. Merge K Sorted Lists</h3>
+                    <p class="difficulty hard">Hard</p>
+                    <p>Merge K sorted linked lists using min-heap.</p>
+                    <a href="https://leetcode.com/problems/merge-k-sorted-lists/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithm Explanation -->
+        <section class="algorithm-explanation">
+            <h2>🧠 Algorithm Deep Dive</h2>
+            <div class="explanation-content">
+                <div class="explanation-section">
+                    <h3>Why Heap? The Key Insight</h3>
+                    <p><strong>Sorting approach:</strong> O(n log n) - sorts all n elements</p>
+                    <p><strong>Heap approach:</strong> O(n log k) - maintains only k elements!</p>
+                    <p>When k << n, this is MUCH faster. Example: Find top 10 from 1 million items.</p>
+                    <div class="code-example">
+                        <pre><code>// Kth Largest Element
+function findKthLargest(nums, k) {
+    // Use min-heap of size k
+    const minHeap = new MinHeap();
+    
+    for (let num of nums) {
+        minHeap.push(num);
+        
+        // Keep heap size = k
+        if (minHeap.size() > k) {
+            minHeap.pop(); // Remove smallest
+        }
+    }
+    
+    // Root of min-heap = kth largest
+    return minHeap.peek();
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Min-Heap vs Max-Heap: When to Use</h3>
+                    <ul>
+                        <li><strong>K Largest elements:</strong> Use Min-Heap (remove smallest when size > k)</li>
+                        <li><strong>K Smallest elements:</strong> Use Max-Heap (remove largest when size > k)</li>
+                        <li><strong>Why counterintuitive?</strong> We remove opposite elements to keep the K we want!</li>
+                    </ul>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Top K Frequent Elements</h3>
+                    <div class="code-example">
+                        <pre><code>function topKFrequent(nums, k) {
+    // Step 1: Count frequencies
+    const freq = {};
+    for (let num of nums) {
+        freq[num] = (freq[num] || 0) + 1;
+    }
+    
+    // Step 2: Use min-heap of size k
+    const minHeap = new MinHeap((a, b) => a[1] - b[1]);
+    
+    for (let [num, count] of Object.entries(freq)) {
+        minHeap.push([num, count]);
+        if (minHeap.size() > k) {
+            minHeap.pop();
+        }
+    }
+    
+    // Step 3: Extract elements
+    return minHeap.toArray().map(x => x[0]);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Real-World Applications</h3>
+                    <ul>
+                        <li><strong>Leaderboards:</strong> Gaming (top 100 players), sports rankings</li>
+                        <li><strong>Recommendation Systems:</strong> Netflix top 10, YouTube trending</li>
+                        <li><strong>Search Engines:</strong> Google top search results</li>
+                        <li><strong>E-commerce:</strong> Amazon best sellers, trending products</li>
+                        <li><strong>OS Task Scheduling:</strong> Priority queues for processes</li>
+                        <li><strong>Network Routing:</strong> Shortest path algorithms (Dijkstra)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../index.html">← Back to All Patterns</a>
+                    <a href="https://github.com/Tyagirohan/LeetCode-Patterns" target="_blank">View Code on GitHub</a>
+                </div>
+                <p>Day 4 of 6 - LeetCode Patterns Series</p>
+                <p>Built with 💙 by Rohan Tyagi | Part of DSA Learning Journey</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

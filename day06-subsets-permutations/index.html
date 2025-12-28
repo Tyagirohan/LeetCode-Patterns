@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subsets & Permutations - LeetCode Pattern</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>🔄 Subsets & Permutations</h1>
+                <p class="subtitle">Generate All Combinations</p>
+            </div>
+            <div class="header-meta">
+                <span class="badge">Day 6/6</span>
+                <span class="badge">Pattern: Backtracking</span>
+            </div>
+        </header>
+
+        <!-- Pattern Info -->
+        <section class="pattern-info">
+            <h2>📖 Pattern Overview</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎯 When to Use</h3>
+                    <ul>
+                        <li>Generate all subsets (power set)</li>
+                        <li>Generate all permutations</li>
+                        <li>Combination problems</li>
+                        <li>"All possible" questions</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ Complexity</h3>
+                    <ul>
+                        <li><strong>Subsets:</strong> O(2^n)</li>
+                        <li><strong>Permutations:</strong> O(n!)</li>
+                        <li><strong>Combinations:</strong> O(C(n,k))</li>
+                        <li><strong>Grows:</strong> Exponentially!</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🔑 How It Works</h3>
+                    <ul>
+                        <li><strong>Include/Exclude:</strong> Each element</li>
+                        <li><strong>Backtrack:</strong> Explore all paths</li>
+                        <li><strong>Decision Tree:</strong> 2^n leaves</li>
+                        <li><strong>Collect:</strong> All solutions</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Selector -->
+        <section class="problem-selector">
+            <h2>🎯 Select Problem</h2>
+            <div class="problem-tabs">
+                <button class="tab-btn active" data-problem="subsets">
+                    <span class="problem-number">LC 78</span>
+                    <span class="problem-name">Subsets</span>
+                </button>
+                <button class="tab-btn" data-problem="permutations">
+                    <span class="problem-number">LC 46</span>
+                    <span class="problem-name">Permutations</span>
+                </button>
+                <button class="tab-btn" data-problem="combinations">
+                    <span class="problem-number">LC 77</span>
+                    <span class="problem-name">Combinations</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Visualizer -->
+        <section class="visualizer">
+            <div class="visualizer-header">
+                <h2 id="problemTitle">Generate All Subsets</h2>
+                <div class="controls">
+                    <button id="startBtn" class="btn btn-primary">▶ Generate</button>
+                    <button id="resetBtn" class="btn btn-secondary">↺ Reset</button>
+                </div>
+            </div>
+
+            <!-- Input Controls -->
+            <div class="input-controls">
+                <label>Input Array:</label>
+                <input type="text" id="arrayInput" value="1,2,3" placeholder="e.g., 1,2,3,4">
+                <button id="updateBtn" class="btn btn-secondary">Update</button>
+            </div>
+
+            <!-- Combination K Control -->
+            <div id="kControl" class="k-control hidden">
+                <label>Choose K elements:</label>
+                <input type="number" id="kValue" value="2" min="1">
+            </div>
+
+            <!-- Speed Control -->
+            <div class="speed-control">
+                <label for="speedSlider">Speed:</label>
+                <input type="range" id="speedSlider" min="1" max="4" value="2" step="1">
+                <span id="speedLabel">Normal</span>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-container">
+                <canvas id="visualizerCanvas"></canvas>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-label">Array Size (n):</span>
+                    <span id="arraySize" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Results:</span>
+                    <span id="totalResults" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Expected:</span>
+                    <span id="expectedCount" class="stat-value">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Status:</span>
+                    <span id="status" class="stat-value">Ready</span>
+                </div>
+            </div>
+
+            <!-- Results Display -->
+            <div class="results-display">
+                <h3>Generated Results:</h3>
+                <div id="resultsContainer" class="results-container"></div>
+            </div>
+
+            <!-- Step Description -->
+            <div class="step-description">
+                <h3>Current Step:</h3>
+                <p id="stepText">Click "Generate" to start</p>
+            </div>
+        </section>
+
+        <!-- LeetCode Problems Reference -->
+        <section class="leetcode-reference">
+            <h2>📚 LeetCode Problems</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <h3>78. Subsets</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Generate all possible subsets (power set).</p>
+                    <a href="https://leetcode.com/problems/subsets/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>46. Permutations</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Generate all possible permutations.</p>
+                    <a href="https://leetcode.com/problems/permutations/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>77. Combinations</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Return all combinations of k numbers from 1 to n.</p>
+                    <a href="https://leetcode.com/problems/combinations/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>39. Combination Sum</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find all combinations that sum to target.</p>
+                    <a href="https://leetcode.com/problems/combination-sum/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>90. Subsets II</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Subsets with duplicates (no duplicate subsets).</p>
+                    <a href="https://leetcode.com/problems/subsets-ii/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>47. Permutations II</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Permutations with duplicates.</p>
+                    <a href="https://leetcode.com/problems/permutations-ii/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithm Explanation -->
+        <section class="algorithm-explanation">
+            <h2>🧠 Algorithm Deep Dive</h2>
+            <div class="explanation-content">
+                <div class="explanation-section">
+                    <h3>Subsets (Power Set)</h3>
+                    <p>Every element has 2 choices: include or exclude!</p>
+                    <div class="code-example">
+                        <pre><code>function subsets(nums) {
+    const result = [];
+    
+    function backtrack(index, current) {
+        // Base case: processed all elements
+        if (index === nums.length) {
+            result.push([...current]);
+            return;
+        }
+        
+        // Choice 1: Exclude current element
+        backtrack(index + 1, current);
+        
+        // Choice 2: Include current element
+        current.push(nums[index]);
+        backtrack(index + 1, current);
+        current.pop();
+    }
+    
+    backtrack(0, []);
+    return result;
+}
+
+// For [1,2,3]: 2^3 = 8 subsets
+// [], [1], [2], [1,2], [3], [1,3], [2,3], [1,2,3]</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Permutations</h3>
+                    <p>Try each remaining element in each position!</p>
+                    <div class="code-example">
+                        <pre><code>function permute(nums) {
+    const result = [];
+    
+    function backtrack(current, remaining) {
+        if (remaining.length === 0) {
+            result.push([...current]);
+            return;
+        }
+        
+        for (let i = 0; i < remaining.length; i++) {
+            // Choose
+            current.push(remaining[i]);
+            
+            // Explore
+            const newRemaining = [
+                ...remaining.slice(0, i),
+                ...remaining.slice(i + 1)
+            ];
+            backtrack(current, newRemaining);
+            
+            // Unchoose
+            current.pop();
+        }
+    }
+    
+    backtrack([], nums);
+    return result;
+}
+
+// For [1,2,3]: 3! = 6 permutations
+// [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Combinations</h3>
+                    <p>Choose k elements, order doesn't matter!</p>
+                    <div class="code-example">
+                        <pre><code>function combine(n, k) {
+    const result = [];
+    
+    function backtrack(start, current) {
+        if (current.length === k) {
+            result.push([...current]);
+            return;
+        }
+        
+        for (let i = start; i <= n; i++) {
+            current.push(i);
+            backtrack(i + 1, current);
+            current.pop();
+        }
+    }
+    
+    backtrack(1, []);
+    return result;
+}
+
+// For n=4, k=2: C(4,2) = 6 combinations
+// [1,2], [1,3], [1,4], [2,3], [2,4], [3,4]</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Real-World Applications</h3>
+                    <ul>
+                        <li><strong>Password Generation:</strong> All possible combinations</li>
+                        <li><strong>Test Case Generation:</strong> All input combinations</li>
+                        <li><strong>Feature Flags:</strong> All on/off combinations</li>
+                        <li><strong>Menu Selection:</strong> All meal combinations</li>
+                        <li><strong>A/B Testing:</strong> All variant combinations</li>
+                        <li><strong>Cryptography:</strong> Key generation, brute force</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../index.html">← Back to All Patterns</a>
+                    <a href="https://github.com/Tyagirohan/LeetCode-Patterns" target="_blank">View Code on GitHub</a>
+                </div>
+                <p>Day 6 of 6 - LeetCode Patterns Series</p>
+                <p>Built with 💙 by Rohan Tyagi | Part of DSA Learning Journey</p>
+                <p style="margin-top: 1rem; font-size: 1.1rem;">🎉 <strong>Week 4 Complete!</strong> 🎉</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

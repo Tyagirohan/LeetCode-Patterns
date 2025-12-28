@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Intervals - LeetCode Pattern</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>📊 Merge Intervals</h1>
+                <p class="subtitle">Sort + Merge Overlapping Ranges</p>
+            </div>
+            <div class="header-meta">
+                <span class="badge">Day 2/6</span>
+                <span class="badge">Pattern: Interval Merging</span>
+            </div>
+        </header>
+
+        <!-- Pattern Info -->
+        <section class="pattern-info">
+            <h2>📖 Pattern Overview</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎯 When to Use</h3>
+                    <ul>
+                        <li>Merging overlapping intervals</li>
+                        <li>Scheduling meetings</li>
+                        <li>Finding free time slots</li>
+                        <li>Resource allocation</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ Complexity</h3>
+                    <ul>
+                        <li><strong>Time:</strong> O(n log n)</li>
+                        <li><strong>Space:</strong> O(n)</li>
+                        <li><strong>Key:</strong> Sort first!</li>
+                        <li><strong>Why:</strong> Sorting enables linear merge</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🔑 How It Works</h3>
+                    <ul>
+                        <li><strong>Step 1:</strong> Sort by start time</li>
+                        <li><strong>Step 2:</strong> Iterate through intervals</li>
+                        <li><strong>Step 3:</strong> Merge if overlapping</li>
+                        <li><strong>Step 4:</strong> Add to result</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Selector -->
+        <section class="problem-selector">
+            <h2>🎯 Select Problem</h2>
+            <div class="problem-tabs">
+                <button class="tab-btn active" data-problem="merge">
+                    <span class="problem-number">LC 56</span>
+                    <span class="problem-name">Merge Intervals</span>
+                </button>
+                <button class="tab-btn" data-problem="insert">
+                    <span class="problem-number">LC 57</span>
+                    <span class="problem-name">Insert Interval</span>
+                </button>
+                <button class="tab-btn" data-problem="meetings">
+                    <span class="problem-number">LC 252/253</span>
+                    <span class="problem-name">Meeting Rooms</span>
+                </button>
+                <button class="tab-btn" data-problem="nonoverlap">
+                    <span class="problem-number">LC 435</span>
+                    <span class="problem-name">Non-overlapping</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Visualizer -->
+        <section class="visualizer">
+            <div class="visualizer-header">
+                <h2 id="problemTitle">Merge Intervals</h2>
+                <div class="controls">
+                    <button id="generateBtn" class="btn btn-secondary">🎲 Random</button>
+                    <button id="presetBtn" class="btn btn-secondary">📅 Preset</button>
+                    <button id="startBtn" class="btn btn-primary">▶ Start</button>
+                    <button id="stepBtn" class="btn btn-secondary">⏯ Step</button>
+                    <button id="resetBtn" class="btn btn-secondary">↺ Reset</button>
+                </div>
+            </div>
+
+            <!-- Speed Control -->
+            <div class="speed-control">
+                <label for="speedSlider">Speed:</label>
+                <input type="range" id="speedSlider" min="1" max="4" value="2" step="1">
+                <span id="speedLabel">Normal</span>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-container">
+                <canvas id="visualizerCanvas"></canvas>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-label">Total Intervals:</span>
+                    <span id="totalIntervals" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Current Step:</span>
+                    <span id="currentStep" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Merged Count:</span>
+                    <span id="mergedCount" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Result:</span>
+                    <span id="result" class="stat-value">-</span>
+                </div>
+            </div>
+
+            <!-- Step Description -->
+            <div class="step-description">
+                <h3>Current Step:</h3>
+                <p id="stepText">Click "Start" or "Step" to begin the algorithm</p>
+            </div>
+        </section>
+
+        <!-- Custom Input Section -->
+        <section class="custom-input">
+            <h2>🎨 Custom Input</h2>
+            <div class="input-container" id="mergeInput">
+                <label>
+                    Intervals (format: [start,end] [start,end] ...):
+                    <input type="text" id="intervalsInput" placeholder="e.g., [1,3] [2,6] [8,10] [15,18]">
+                </label>
+                <button id="customMergeBtn" class="btn btn-primary">Merge Intervals</button>
+            </div>
+
+            <div class="input-container hidden" id="insertInput">
+                <label>
+                    Existing Intervals:
+                    <input type="text" id="existingIntervals" placeholder="e.g., [1,3] [6,9]">
+                </label>
+                <label>
+                    New Interval:
+                    <input type="text" id="newInterval" placeholder="e.g., [2,5]">
+                </label>
+                <button id="customInsertBtn" class="btn btn-primary">Insert Interval</button>
+            </div>
+
+            <div class="input-container hidden" id="meetingsInput">
+                <label>
+                    Meeting Times:
+                    <input type="text" id="meetingTimes" placeholder="e.g., [0,30] [5,10] [15,20]">
+                </label>
+                <button id="customMeetingsBtn" class="btn btn-primary">Check Meetings</button>
+            </div>
+
+            <div class="input-container hidden" id="nonoverlapInput">
+                <label>
+                    Intervals:
+                    <input type="text" id="nonoverlapIntervals" placeholder="e.g., [1,2] [2,3] [3,4] [1,3]">
+                </label>
+                <button id="customNonoverlapBtn" class="btn btn-primary">Find Minimum Removals</button>
+            </div>
+
+            <div class="quick-presets">
+                <h3>Quick Presets:</h3>
+                <div class="preset-buttons">
+                    <button class="preset-btn" data-preset="calendar">📅 Calendar Events</button>
+                    <button class="preset-btn" data-preset="busy">⏰ Busy Schedule</button>
+                    <button class="preset-btn" data-preset="sparse">🌟 Sparse Meetings</button>
+                    <button class="preset-btn" data-preset="complex">🎯 Complex Case</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- LeetCode Problems Reference -->
+        <section class="leetcode-reference">
+            <h2>📚 LeetCode Problems</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <h3>56. Merge Intervals</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Given intervals, merge all overlapping intervals.</p>
+                    <a href="https://leetcode.com/problems/merge-intervals/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>57. Insert Interval</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Insert new interval and merge if necessary.</p>
+                    <a href="https://leetcode.com/problems/insert-interval/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>252. Meeting Rooms</h3>
+                    <p class="difficulty easy">Easy</p>
+                    <p>Check if person can attend all meetings.</p>
+                    <a href="https://leetcode.com/problems/meeting-rooms/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>253. Meeting Rooms II</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find minimum number of conference rooms required.</p>
+                    <a href="https://leetcode.com/problems/meeting-rooms-ii/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>435. Non-overlapping Intervals</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find minimum removals to make intervals non-overlapping.</p>
+                    <a href="https://leetcode.com/problems/non-overlapping-intervals/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>986. Interval List Intersections</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find intersections of two interval lists.</p>
+                    <a href="https://leetcode.com/problems/interval-list-intersections/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithm Explanation -->
+        <section class="algorithm-explanation">
+            <h2>🧠 Algorithm Deep Dive</h2>
+            <div class="explanation-content">
+                <div class="explanation-section">
+                    <h3>Core Algorithm</h3>
+                    <p>The key insight: <strong>Sort by start time, then merge in one pass!</strong></p>
+                    <div class="code-example">
+                        <pre><code>function merge(intervals) {
+    if (intervals.length === 0) return [];
+    
+    // Step 1: Sort by start time
+    intervals.sort((a, b) => a[0] - b[0]);
+    
+    const result = [intervals[0]];
+    
+    // Step 2: Iterate and merge
+    for (let i = 1; i < intervals.length; i++) {
+        const current = intervals[i];
+        const last = result[result.length - 1];
+        
+        // Check overlap: current starts before last ends
+        if (current[0] <= last[1]) {
+            // Merge: extend the end time
+            last[1] = Math.max(last[1], current[1]);
+        } else {
+            // No overlap: add as new interval
+            result.push(current);
+        }
+    }
+    
+    return result;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Meeting Rooms II (Min Rooms Required)</h3>
+                    <p>Use a min-heap to track room end times efficiently!</p>
+                    <div class="code-example">
+                        <pre><code>function minMeetingRooms(intervals) {
+    if (intervals.length === 0) return 0;
+    
+    // Sort by start time
+    intervals.sort((a, b) => a[0] - b[0]);
+    
+    // Min-heap for end times
+    const rooms = [intervals[0][1]];
+    
+    for (let i = 1; i < intervals.length; i++) {
+        // If earliest ending meeting ends before this starts
+        if (rooms[0] <= intervals[i][0]) {
+            rooms.shift(); // Room freed
+        }
+        
+        // Add current meeting's end time
+        rooms.push(intervals[i][1]);
+        rooms.sort((a, b) => a - b); // Keep as min-heap
+    }
+    
+    return rooms.length; // Peak number of rooms
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Real-World Applications</h3>
+                    <ul>
+                        <li><strong>Calendar Apps:</strong> Google Calendar merges events, finds free slots</li>
+                        <li><strong>Resource Scheduling:</strong> Conference room booking systems</li>
+                        <li><strong>CPU Scheduling:</strong> Operating systems schedule processes</li>
+                        <li><strong>Video Streaming:</strong> Merge buffered segments</li>
+                        <li><strong>Data Compression:</strong> Merge consecutive data ranges</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../index.html">← Back to All Patterns</a>
+                    <a href="https://github.com/Tyagirohan/LeetCode-Patterns" target="_blank">View Code on GitHub</a>
+                </div>
+                <p>Day 2 of 6 - LeetCode Patterns Series</p>
+                <p>Built with 💙 by Rohan Tyagi | Part of DSA Learning Journey</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

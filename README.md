@@ -1,6 +1,6 @@
 # 🎯 LeetCode Patterns - Week 4
 
-![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
+![Status](https://img.shields.io/badge/Status-Complete-success)
 ![Projects](https://img.shields.io/badge/Projects-6-blue)
 ![Week](https://img.shields.io/badge/Week-4-green)
 
@@ -39,27 +39,139 @@ Detect cycles and find duplicates using two pointers moving at different speeds.
 ---
 
 ### **Day 2: Merge Intervals** 📊
-**Coming Soon...**
+**Pattern**: Sort + Merge Overlapping Ranges
+
+Schedule meetings, merge time intervals, and solve resource allocation problems.
+
+**Key Features**:
+- Timeline visualization with animated merging
+- 4 problem types (Merge, Insert, Meeting Rooms, Non-overlapping)
+- Interactive custom interval input
+- Quick presets (Calendar, Busy Schedule, Sparse, Complex)
+- Real-time stats tracking
+- Color-coded intervals and merges
+
+**Problems Solved**:
+- Merge Intervals (LeetCode 56)
+- Insert Interval (LeetCode 57)
+- Meeting Rooms I & II (LeetCode 252, 253)
+- Non-overlapping Intervals (LeetCode 435)
+- Interval List Intersections (LeetCode 986)
+
+**Real-World Use**: Calendar apps (Google Calendar), resource scheduling, timeline management, booking systems
+
+🔗 **[Live Demo](#)** | 📂 **[Code](./day02-merge-intervals/)**
+
+**Tech Stack**: Vanilla JS, Canvas API, O(n log n) time
 
 ---
 
 ### **Day 3: Backtracking** ♟️
-**Coming Soon...**
+**Pattern**: Try → Check → Recurse → Backtrack
+
+Solve N-Queens and Sudoku puzzles with animated decision tree exploration.
+
+**Key Features**:
+- N-Queens solver (4x4 to 8x8 boards)
+- Sudoku solver with 4 difficulty levels
+- Animated backtracking visualization
+- Multiple solutions viewer (N-Queens)
+- Real-time statistics (attempts, backtracks, solutions)
+- Speed control and step-by-step mode
+
+**Problems Solved**:
+- N-Queens (LeetCode 51, 52)
+- Sudoku Solver (LeetCode 37)
+- Permutations (LeetCode 46)
+- Subsets (LeetCode 78)
+- Generate Parentheses (LeetCode 22)
+
+**Real-World Use**: Game AI, puzzle solvers, constraint satisfaction, scheduling, resource allocation
+
+🔗 **[Live Demo](#)** | 📂 **[Code](./day03-backtracking/)**
+
+**Tech Stack**: Vanilla JS, Canvas API, O(b^d) complexity
 
 ---
 
 ### **Day 4: Top K Elements** 🏆
-**Coming Soon...**
+**Pattern**: Heap / Priority Queue for Efficient Top K
+
+Find top K elements using min/max heaps - faster than full sorting!
+
+**Key Features**:
+- Kth largest element finder
+- Top K frequent elements
+- K closest points to origin
+- Heap structure visualization
+- Array and comparison views
+- Real-time performance comparison
+
+**Problems Solved**:
+- Kth Largest Element (LeetCode 215)
+- Top K Frequent Elements (LeetCode 347)
+- K Closest Points (LeetCode 973)
+- Find Median from Stream (LeetCode 295)
+
+**Real-World Use**: Leaderboards, recommendations, search ranking, OS task scheduling
+
+🔗 **[Live Demo](#)** | 📂 **[Code](./day04-top-k-elements/)**
+
+**Tech Stack**: Vanilla JS, Heap implementation, O(n log k) time
 
 ---
 
 ### **Day 5: Binary Tree Patterns** 🌳
-**Coming Soon...**
+**Pattern**: DFS/BFS Traversals & Path Problems
+
+Master all tree traversal types with interactive visualization and path finding.
+
+**Key Features**:
+- 5 traversal types (Inorder, Preorder, Postorder, Level Order, Zigzag)
+- Interactive tree builder
+- Path sum calculator
+- Animated step-by-step traversal
+- Color-coded visualization
+- Real-time result display
+
+**Problems Solved**:
+- Binary Tree Traversals (LeetCode 94, 144, 145, 102)
+- Path Sum (LeetCode 112, 113)
+- Zigzag Level Order (LeetCode 103)
+- Lowest Common Ancestor (LeetCode 236)
+
+**Real-World Use**: File systems, DOM manipulation, org hierarchies, compilers, databases
+
+🔗 **[Live Demo](#)** | 📂 **[Code](./day05-binary-tree/)**
+
+**Tech Stack**: Vanilla JS, Canvas API, O(n) traversals
 
 ---
 
 ### **Day 6: Subsets & Permutations** 🔄
-**Coming Soon...**
+**Pattern**: Generate All Combinations
+
+Generate all subsets, permutations, and combinations with decision tree visualization.
+
+**Key Features**:
+- Subsets generator (2^n combinations)
+- Permutations generator (n! arrangements)
+- Combinations (choose K from N)
+- Real-time result display in grid
+- Expected count calculator
+- Exponential growth demonstration
+
+**Problems Solved**:
+- Subsets (LeetCode 78, 90)
+- Permutations (LeetCode 46, 47)
+- Combinations (LeetCode 77)
+- Combination Sum (LeetCode 39)
+
+**Real-World Use**: Password generation, test cases, feature flags, A/B testing, menu planning
+
+🔗 **[Live Demo](#)** | 📂 **[Code](./day06-subsets-permutations/)**
+
+**Tech Stack**: Vanilla JS, Recursive backtracking, O(2^n) / O(n!) complexity
 
 ---
 
@@ -140,11 +252,13 @@ Every project includes:
 ## 📊 Progress Tracker
 
 - [x] **Day 1**: Fast & Slow Pointers ✅
-- [ ] **Day 2**: Merge Intervals
-- [ ] **Day 3**: Backtracking
-- [ ] **Day 4**: Top K Elements
-- [ ] **Day 5**: Binary Tree Patterns
-- [ ] **Day 6**: Subsets & Permutations
+- [x] **Day 2**: Merge Intervals ✅
+- [x] **Day 3**: Backtracking ✅
+- [x] **Day 4**: Top K Elements ✅
+- [x] **Day 5**: Binary Tree Patterns ✅
+- [x] **Day 6**: Subsets & Permutations ✅
+
+**🎉 Week 4 Complete!**
 
 ---
 

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backtracking - LeetCode Pattern</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>♟️ Backtracking</h1>
+                <p class="subtitle">Try → Check → Recurse → Backtrack</p>
+            </div>
+            <div class="header-meta">
+                <span class="badge">Day 3/6</span>
+                <span class="badge">Pattern: Backtracking</span>
+            </div>
+        </header>
+
+        <!-- Pattern Info -->
+        <section class="pattern-info">
+            <h2>📖 Pattern Overview</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎯 When to Use</h3>
+                    <ul>
+                        <li>Generate all solutions</li>
+                        <li>Constraint satisfaction problems</li>
+                        <li>Puzzles (Sudoku, N-Queens)</li>
+                        <li>Combinatorial search</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ Complexity</h3>
+                    <ul>
+                        <li><strong>Time:</strong> O(b^d) exponential</li>
+                        <li><strong>Space:</strong> O(d) recursion depth</li>
+                        <li><strong>b:</strong> Branching factor</li>
+                        <li><strong>d:</strong> Max depth</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🔑 How It Works</h3>
+                    <ul>
+                        <li><strong>Try:</strong> Make a choice</li>
+                        <li><strong>Check:</strong> Is it valid?</li>
+                        <li><strong>Recurse:</strong> Continue deeper</li>
+                        <li><strong>Backtrack:</strong> Undo & try next</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Selector -->
+        <section class="problem-selector">
+            <h2>🎯 Select Problem</h2>
+            <div class="problem-tabs">
+                <button class="tab-btn active" data-problem="nqueens">
+                    <span class="problem-number">LC 51</span>
+                    <span class="problem-name">N-Queens</span>
+                </button>
+                <button class="tab-btn" data-problem="sudoku">
+                    <span class="problem-number">LC 37</span>
+                    <span class="problem-name">Sudoku Solver</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Visualizer -->
+        <section class="visualizer">
+            <div class="visualizer-header">
+                <h2 id="problemTitle">N-Queens Problem</h2>
+                <div class="controls">
+                    <button id="solveBtn" class="btn btn-primary">🔍 Solve</button>
+                    <button id="stepBtn" class="btn btn-secondary">⏯ Step</button>
+                    <button id="nextSolutionBtn" class="btn btn-secondary hidden">➡️ Next Solution</button>
+                    <button id="resetBtn" class="btn btn-secondary">↺ Reset</button>
+                </div>
+            </div>
+
+            <!-- Speed Control -->
+            <div class="speed-control">
+                <label for="speedSlider">Speed:</label>
+                <input type="range" id="speedSlider" min="1" max="4" value="2" step="1">
+                <span id="speedLabel">Normal</span>
+            </div>
+
+            <!-- Board Size for N-Queens -->
+            <div id="boardSizeControl" class="board-size-control">
+                <label for="boardSize">Board Size:</label>
+                <input type="range" id="boardSize" min="4" max="8" value="8" step="1">
+                <span id="boardSizeLabel">8x8</span>
+            </div>
+
+            <!-- Sudoku Preset Selection -->
+            <div id="sudokuPresets" class="sudoku-presets hidden">
+                <h3>Select Difficulty:</h3>
+                <div class="preset-buttons">
+                    <button class="preset-btn" data-difficulty="easy">😊 Easy</button>
+                    <button class="preset-btn" data-difficulty="medium">🤔 Medium</button>
+                    <button class="preset-btn" data-difficulty="hard">😰 Hard</button>
+                    <button class="preset-btn" data-difficulty="expert">💀 Expert</button>
+                </div>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-container">
+                <canvas id="visualizerCanvas"></canvas>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <span class="stat-label">Attempts:</span>
+                    <span id="attempts" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Backtracks:</span>
+                    <span id="backtracks" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Solutions Found:</span>
+                    <span id="solutions" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Status:</span>
+                    <span id="status" class="stat-value">Ready</span>
+                </div>
+            </div>
+
+            <!-- Step Description -->
+            <div class="step-description">
+                <h3>Current Step:</h3>
+                <p id="stepText">Click "Solve" to start the backtracking algorithm</p>
+            </div>
+        </section>
+
+        <!-- LeetCode Problems Reference -->
+        <section class="leetcode-reference">
+            <h2>📚 LeetCode Problems</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <h3>51. N-Queens</h3>
+                    <p class="difficulty hard">Hard</p>
+                    <p>Place N queens on an N×N chessboard so no two attack each other.</p>
+                    <a href="https://leetcode.com/problems/n-queens/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>52. N-Queens II</h3>
+                    <p class="difficulty hard">Hard</p>
+                    <p>Return the number of distinct solutions to N-Queens.</p>
+                    <a href="https://leetcode.com/problems/n-queens-ii/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>37. Sudoku Solver</h3>
+                    <p class="difficulty hard">Hard</p>
+                    <p>Fill empty cells with digits 1-9 following Sudoku rules.</p>
+                    <a href="https://leetcode.com/problems/sudoku-solver/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>46. Permutations</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Generate all possible permutations of an array.</p>
+                    <a href="https://leetcode.com/problems/permutations/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>78. Subsets</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Generate all possible subsets (power set).</p>
+                    <a href="https://leetcode.com/problems/subsets/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>22. Generate Parentheses</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Generate all valid combinations of N pairs of parentheses.</p>
+                    <a href="https://leetcode.com/problems/generate-parentheses/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithm Explanation -->
+        <section class="algorithm-explanation">
+            <h2>🧠 Algorithm Deep Dive</h2>
+            <div class="explanation-content">
+                <div class="explanation-section">
+                    <h3>Backtracking Template</h3>
+                    <p>The universal pattern for all backtracking problems:</p>
+                    <div class="code-example">
+                        <pre><code>function backtrack(state) {
+    // Base case: solution found
+    if (isComplete(state)) {
+        result.push(copy(state));
+        return;
+    }
+    
+    // Try all possible choices
+    for (let choice of getChoices(state)) {
+        // Make choice
+        state.add(choice);
+        
+        // Check if valid
+        if (isValid(state)) {
+            // Recurse
+            backtrack(state);
+        }
+        
+        // Backtrack: undo choice
+        state.remove(choice);
+    }
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>N-Queens Algorithm</h3>
+                    <p>Place queens row by row, checking safety at each step:</p>
+                    <div class="code-example">
+                        <pre><code>function solveNQueens(n) {
+    const board = Array(n).fill().map(() => Array(n).fill('.'));
+    const result = [];
+    
+    function isSafe(row, col) {
+        // Check column
+        for (let i = 0; i < row; i++) {
+            if (board[i][col] === 'Q') return false;
+        }
+        
+        // Check diagonal (top-left)
+        for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] === 'Q') return false;
+        }
+        
+        // Check diagonal (top-right)
+        for (let i = row - 1, j = col + 1; i >= 0 && j < n; i--, j++) {
+            if (board[i][j] === 'Q') return false;
+        }
+        
+        return true;
+    }
+    
+    function backtrack(row) {
+        if (row === n) {
+            result.push(board.map(r => r.join('')));
+            return;
+        }
+        
+        for (let col = 0; col < n; col++) {
+            if (isSafe(row, col)) {
+                board[row][col] = 'Q';
+                backtrack(row + 1);
+                board[row][col] = '.';  // Backtrack
+            }
+        }
+    }
+    
+    backtrack(0);
+    return result;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Sudoku Solver Algorithm</h3>
+                    <p>Try digits 1-9 in each empty cell, backtrack if invalid:</p>
+                    <div class="code-example">
+                        <pre><code>function solveSudoku(board) {
+    function isValid(row, col, num) {
+        // Check row
+        for (let j = 0; j < 9; j++) {
+            if (board[row][j] === num) return false;
+        }
+        
+        // Check column
+        for (let i = 0; i < 9; i++) {
+            if (board[i][col] === num) return false;
+        }
+        
+        // Check 3x3 box
+        const boxRow = Math.floor(row / 3) * 3;
+        const boxCol = Math.floor(col / 3) * 3;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (board[boxRow + i][boxCol + j] === num) {
+                    return false;
+                }
+            }
+        }
+        
+        return true;
+    }
+    
+    function solve() {
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                if (board[row][col] === 0) {
+                    for (let num = 1; num <= 9; num++) {
+                        if (isValid(row, col, num)) {
+                            board[row][col] = num;
+                            
+                            if (solve()) return true;
+                            
+                            board[row][col] = 0;  // Backtrack
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    
+    solve();
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Real-World Applications</h3>
+                    <ul>
+                        <li><strong>Game AI:</strong> Chess engines, puzzle solvers</li>
+                        <li><strong>Constraint Satisfaction:</strong> Course scheduling, exam timetabling</li>
+                        <li><strong>Resource Allocation:</strong> Job assignment, staff rostering</li>
+                        <li><strong>Path Finding:</strong> Maze solving, route planning</li>
+                        <li><strong>Optimization:</strong> Traveling salesman, knapsack variants</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../index.html">← Back to All Patterns</a>
+                    <a href="https://github.com/Tyagirohan/LeetCode-Patterns" target="_blank">View Code on GitHub</a>
+                </div>
+                <p>Day 3 of 6 - LeetCode Patterns Series</p>
+                <p>Built with 💙 by Rohan Tyagi | Part of DSA Learning Journey</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Tree Patterns - LeetCode Pattern</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <h1>🌳 Binary Tree Patterns</h1>
+                <p class="subtitle">DFS/BFS Traversals & Path Problems</p>
+            </div>
+            <div class="header-meta">
+                <span class="badge">Day 5/6</span>
+                <span class="badge">Pattern: Tree Traversal</span>
+            </div>
+        </header>
+
+        <!-- Pattern Info -->
+        <section class="pattern-info">
+            <h2>📖 Pattern Overview</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>🎯 When to Use</h3>
+                    <ul>
+                        <li>Tree traversal (all types)</li>
+                        <li>Path sum problems</li>
+                        <li>Lowest common ancestor</li>
+                        <li>Tree serialization</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>⚡ Complexity</h3>
+                    <ul>
+                        <li><strong>Time:</strong> O(n)</li>
+                        <li><strong>Space:</strong> O(h) - height</li>
+                        <li><strong>DFS:</strong> Recursion stack</li>
+                        <li><strong>BFS:</strong> Queue size</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h3>🔑 Traversal Types</h3>
+                    <ul>
+                        <li><strong>Inorder:</strong> Left → Root → Right</li>
+                        <li><strong>Preorder:</strong> Root → Left → Right</li>
+                        <li><strong>Postorder:</strong> Left → Right → Root</li>
+                        <li><strong>Level Order:</strong> BFS layer by layer</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem Selector -->
+        <section class="problem-selector">
+            <h2>🎯 Select Visualization</h2>
+            <div class="problem-tabs">
+                <button class="tab-btn active" data-problem="traversals">
+                    <span class="problem-name">All Traversals</span>
+                </button>
+                <button class="tab-btn" data-problem="pathsum">
+                    <span class="problem-name">Path Sum</span>
+                </button>
+                <button class="tab-btn" data-problem="builder">
+                    <span class="problem-name">Build Your Tree</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Visualizer -->
+        <section class="visualizer">
+            <div class="visualizer-header">
+                <h2 id="problemTitle">Binary Tree Traversals</h2>
+                <div class="controls">
+                    <button id="generateBtn" class="btn btn-secondary">🎲 Random Tree</button>
+                    <button id="startBtn" class="btn btn-primary">▶ Start</button>
+                    <button id="resetBtn" class="btn btn-secondary">↺ Reset</button>
+                </div>
+            </div>
+
+            <!-- Traversal Type Selection -->
+            <div id="traversalControls" class="traversal-controls">
+                <label>Select Traversal:</label>
+                <select id="traversalType" class="traversal-select">
+                    <option value="inorder">Inorder (Left-Root-Right)</option>
+                    <option value="preorder">Preorder (Root-Left-Right)</option>
+                    <option value="postorder">Postorder (Left-Right-Root)</option>
+                    <option value="levelorder">Level Order (BFS)</option>
+                    <option value="zigzag">Zigzag Level Order</option>
+                </select>
+            </div>
+
+            <!-- Path Sum Controls -->
+            <div id="pathSumControls" class="path-sum-controls hidden">
+                <label>Target Sum:</label>
+                <input type="number" id="targetSum" value="22" />
+                <button id="findPathBtn" class="btn btn-secondary">Find Paths</button>
+            </div>
+
+            <!-- Tree Builder Controls -->
+            <div id="builderControls" class="builder-controls hidden">
+                <div class="builder-instructions">
+                    <p>🎨 <strong>Click nodes to add children:</strong></p>
+                    <p>• Click a node → Choose "Add Left" or "Add Right"</p>
+                    <p>• Enter value for new node</p>
+                    <p>• Build your custom tree!</p>
+                </div>
+                <button id="clearTreeBtn" class="btn btn-secondary">Clear Tree</button>
+            </div>
+
+            <!-- Speed Control -->
+            <div class="speed-control">
+                <label for="speedSlider">Speed:</label>
+                <input type="range" id="speedSlider" min="1" max="4" value="2" step="1">
+                <span id="speedLabel">Normal</span>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-container">
+                <canvas id="visualizerCanvas"></canvas>
+            </div>
+
+            <!-- Traversal Result -->
+            <div class="traversal-result">
+                <h3>Traversal Result:</h3>
+                <div id="resultArray" class="result-array">[]</div>
+            </div>
+
+            <!-- Step Description -->
+            <div class="step-description">
+                <h3>Current Step:</h3>
+                <p id="stepText">Click "Start" to begin tree traversal</p>
+            </div>
+        </section>
+
+        <!-- LeetCode Problems Reference -->
+        <section class="leetcode-reference">
+            <h2>📚 LeetCode Problems</h2>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <h3>94. Binary Tree Inorder Traversal</h3>
+                    <p class="difficulty easy">Easy</p>
+                    <p>Return inorder traversal of tree (iterative & recursive).</p>
+                    <a href="https://leetcode.com/problems/binary-tree-inorder-traversal/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>102. Binary Tree Level Order</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Return level order traversal (BFS).</p>
+                    <a href="https://leetcode.com/problems/binary-tree-level-order-traversal/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>112. Path Sum</h3>
+                    <p class="difficulty easy">Easy</p>
+                    <p>Check if tree has root-to-leaf path with given sum.</p>
+                    <a href="https://leetcode.com/problems/path-sum/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>113. Path Sum II</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find all root-to-leaf paths with given sum.</p>
+                    <a href="https://leetcode.com/problems/path-sum-ii/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>103. Zigzag Level Order</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Return zigzag level order traversal.</p>
+                    <a href="https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+                <div class="problem-card">
+                    <h3>236. Lowest Common Ancestor</h3>
+                    <p class="difficulty medium">Medium</p>
+                    <p>Find LCA of two nodes in binary tree.</p>
+                    <a href="https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/" target="_blank" class="problem-link">Solve on LeetCode →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Algorithm Explanation -->
+        <section class="algorithm-explanation">
+            <h2>🧠 Algorithm Deep Dive</h2>
+            <div class="explanation-content">
+                <div class="explanation-section">
+                    <h3>DFS Traversals (Recursive)</h3>
+                    <div class="code-example">
+                        <pre><code>// Inorder: Left → Root → Right
+function inorder(root) {
+    if (!root) return;
+    inorder(root.left);
+    visit(root);
+    inorder(root.right);
+}
+
+// Preorder: Root → Left → Right
+function preorder(root) {
+    if (!root) return;
+    visit(root);
+    preorder(root.left);
+    preorder(root.right);
+}
+
+// Postorder: Left → Right → Root
+function postorder(root) {
+    if (!root) return;
+    postorder(root.left);
+    postorder(root.right);
+    visit(root);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>BFS Level Order (Iterative)</h3>
+                    <div class="code-example">
+                        <pre><code>function levelOrder(root) {
+    if (!root) return [];
+    
+    const result = [];
+    const queue = [root];
+    
+    while (queue.length > 0) {
+        const levelSize = queue.length;
+        const currentLevel = [];
+        
+        for (let i = 0; i < levelSize; i++) {
+            const node = queue.shift();
+            currentLevel.push(node.val);
+            
+            if (node.left) queue.push(node.left);
+            if (node.right) queue.push(node.right);
+        }
+        
+        result.push(currentLevel);
+    }
+    
+    return result;
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Path Sum</h3>
+                    <div class="code-example">
+                        <pre><code>function hasPathSum(root, targetSum) {
+    if (!root) return false;
+    
+    // Leaf node
+    if (!root.left && !root.right) {
+        return root.val === targetSum;
+    }
+    
+    // Recurse with reduced sum
+    const remaining = targetSum - root.val;
+    return hasPathSum(root.left, remaining) || 
+           hasPathSum(root.right, remaining);
+}</code></pre>
+                    </div>
+                </div>
+
+                <div class="explanation-section">
+                    <h3>Real-World Applications</h3>
+                    <ul>
+                        <li><strong>File Systems:</strong> Directory traversal (DFS/BFS)</li>
+                        <li><strong>DOM Manipulation:</strong> HTML element traversal</li>
+                        <li><strong>Organization Charts:</strong> Employee hierarchy</li>
+                        <li><strong>Compilers:</strong> Abstract syntax tree traversal</li>
+                        <li><strong>Databases:</strong> B-tree index traversal</li>
+                        <li><strong>AI/ML:</strong> Decision tree evaluation</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="../index.html">← Back to All Patterns</a>
+                    <a href="https://github.com/Tyagirohan/LeetCode-Patterns" target="_blank">View Code on GitHub</a>
+                </div>
+                <p>Day 5 of 6 - LeetCode Patterns Series</p>
+                <p>Built with 💙 by Rohan Tyagi | Part of DSA Learning Journey</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
